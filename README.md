@@ -255,10 +255,53 @@ Most foundry test classes look very similar so we can paste this template code i
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/hs.sol";
 
 contract ChallengeTest is Test {
     function setUp() public {
     }
 }
 ```
+All that is need now is a function to fuzz calling the CTF contract
+Fuzzing is explained in the Foundry book at [https://book.getfoundry.sh/reference/config/testing#fuzz](https://book.getfoundry.sh/reference/config/testing#fuzz)
+<br><br>
+Fuzzing allows the framework to call a function multiple times with various different inputs, based on the data type.<br>
+We need to call the function
+```
+function callhFunc(uint128 numbor) external {
+        try s_hfSpawnFunc.hFunc(numbor) returns (uint256) {
+            // Do nothing
+        } catch {
+            YouSolvedIt(numbor);
+        }
+    }
+```
+And thus we can use a data type of ```uint128``` which is the same as the input for the function we need to call.<br>
+According to the documentation a fuzzing function needs to include the signature ```testFuzz``` so lets ammended our test class import the local file ```Challenge.sol``` from ```src``` and set up our test.
+<br><br>
+```
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import "forge-std/Test.sol";
+import "../src/Challenge.sol";
+
+contract CounterTest is Test {
+    HellSpawnFuncCaller public hs;
+
+    function setUp() public {
+        hs = new HellSpawnFuncCaller();
+    }
+
+    function testFuzzFuncaller(uint128 numm) public {
+    	hs.callHellFunc(numm);
+    }
+}
+```
+<br>
+**That's it** 
+That's all that needed...... kinda just one more small tweak.<br>
+By default the fuzzer only runs 256 times, so we need to make sure it can run a few more times.<br>
+In the root directory of your project create an empy file called ```.env```.<br>
+Paste the config below into the file, this will allow the fuzzer to run 10_000 times.<br>
+
+```FOUNDRY_FUZZ_RUNS =10000```
