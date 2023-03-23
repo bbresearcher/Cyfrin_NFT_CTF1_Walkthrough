@@ -313,5 +313,9 @@ Now we can run the forge test command, I like to add -vvvv to get a bit more det
 ![Fuzz output](images/solved_fuzz.png)<br><br>
 **Now we have the number that will trigger the failure and solve the CTF**
 <br>
+I you look at the transction that successfully solved it the input is <br>
+"0000000000000000000000000000000000000000000000000000000000000063" <br>
+This equates to the same number we got above but in decimal format.
+<br>
 ## Thank you for reading this far!
 # Thank you to Cyfrin for the learning opportunity.
