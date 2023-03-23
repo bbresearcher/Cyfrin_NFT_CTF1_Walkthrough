@@ -309,7 +309,8 @@ Paste the config below into the file, this will allow the fuzzer to run 10_000 t
 <br>
 Now we can run the forge test command, I like to add -vvvv to get a bit more detail in the output.<br>
 ```forge test -vvvv```
-![Fuzz output](images/solved_fuzz.png)
+<br><br>
+![Fuzz output](images/solved_fuzz.png)<br><br>
 **Now we have the number that will trigger the failure and solve the CTF**
 <br>
 ## Thank you for reading this far!
