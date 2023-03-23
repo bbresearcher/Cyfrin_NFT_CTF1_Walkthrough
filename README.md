@@ -1,5 +1,5 @@
 # The Cyfrin NFT First CTF Walkthrough
-## Exploring the blockcain, FUZZING with Foundry, let's learn together!!
+## Exploring the blockchain, FUZZING with Foundry, let's learn together!!
 ## This walthrough will show the steps I took to solve the challenge and how you can solve it locally using foundry without needing to test on-chain or fork a network.
 ## The Start
 The initial tweet from Cyfrin Audits [https://www.cyfrin.io/](https://www.cyfrin.io/) contains a link to a contract that has been deployed on the Arbitrum network.<br><br>
@@ -248,3 +248,17 @@ contract hSpawnFunc {
 ```
 
 ## Foundry
+In the ```test``` directory, we have created a file called ```Challenge.t.sol```.<br>
+Most foundry test classes look very similar so we can paste this template code into it.<br>
+```
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import "forge-std/Test.sol";
+import "../src/hs.sol";
+
+contract ChallengeTest is Test {
+    function setUp() public {
+    }
+}
+```
