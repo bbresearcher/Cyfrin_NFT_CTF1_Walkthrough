@@ -297,11 +297,20 @@ contract CounterTest is Test {
     }
 }
 ```
-<br>
 **That's it** 
-That's all that needed...... kinda just one more small tweak.<br>
+That's all that needed......<br>
+<br>
+**kinda** just one more small tweak.<br>
 By default the fuzzer only runs 256 times, so we need to make sure it can run a few more times.<br>
 In the root directory of your project create an empy file called ```.env```.<br>
 Paste the config below into the file, this will allow the fuzzer to run 10_000 times.<br>
 
 ```FOUNDRY_FUZZ_RUNS =10000```
+<br>
+Now we can run the forge test command, I like to add -vvvv to get a bit more detail in the output.<br>
+```forge test -vvvv```
+![Fuzz output](images/solved_fuzz.png)
+**Now we have the number that will trigger the failure and solve the CTF**
+<br>
+## Thank you for reading this far!
+# Thank you to Cyfrin for the learning opportunity.
