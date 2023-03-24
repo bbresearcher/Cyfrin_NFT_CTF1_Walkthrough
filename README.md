@@ -2,6 +2,9 @@
 Author: [parsely](https://twitter.com/_Parsely_)<br>
 ## Exploring the blockchain, FUZZING with Foundry, let's learn together!
 ## This walkthrough will show the steps I took to solve the challenge and how you can solve it locally using foundry without needing to test on-chain or fork a network.
+## Prerequisites:
+This walkthrough assumes you have foundry installed already<br>
+[https://book.getfoundry.sh/getting-started/installation](https://book.getfoundry.sh/getting-started/installation)
 ## The Start
 The initial tweet from Cyfrin Audits [https://www.cyfrin.io/](https://www.cyfrin.io/) contains a link to a contract that has been deployed on the Arbitrum network.<br><br>
 [https://arbiscan.io/address/0xc342ef554209459379b98013575f93438dd4da74](https://arbiscan.io/address/0xc342ef554209459379b98013575f93438dd4da74)<br>
@@ -17,12 +20,12 @@ This takes us to the details of the transaction, **BUT** let's take a closer loo
 The logs reveal the exact call made and the data sent. **BINGO!!!**<br> We have the contract address where the actual challenge is. Once again let's follow the link
 ![The CTF tweet](images/log1.png)<br><br>
 **follow the link** ![The CTF tweet](images/chal_lnk.png)<br><br>
-On the explorer page we get more details of the contract, but this time it's for the contract we need to solve the CTF.<br>
+On the explorer page we get more details of the contract, but this time it's for the contract we need in order to solve the CTF.<br>
 The **Contract** tab seems to have a verified tick next to it, the code must be visible to us, click the **Contract** tab.<br><br>
 ![The CTF tweet](images/arb_chal.png)<br><br>
 **We can now investigate the code for the challenge!!**<br><br>
 ![The CTF tweet](images/cntct_tab.png)<br><br>
-All the relevant code is available to us now!.<br><br>
+All the relevant code is available to us now.<br><br>
 ![The CTF tweet](images/all_code.png)<br><br>
 
 The code we need is in the **2nd** code block in the list.<br><br>
@@ -31,11 +34,11 @@ The first thing we need to do is set up a foundry test project
 2. cd into the directory ```cd nftctf```.
 3. Inititalize a foundry project in the empty directory.
 4. ```forge init --no-git```
-5. **--no-git** is only if you dont want to interact with git.
+5. **--no-git** is only if you don't want to interact with git.
 6. Delete the Counter.sol in the ```src``` directory.
 7. Delete the Counter.t.sol in the ```test``` directory.
-8. Create a new file in the ```src``` directory, lets call it ```Challenge.sol```.
-9. Create a new file in the ```test``` directory, lets call it ```challenge.t.sol```.
+8. Create a new file in the ```src``` directory, let's call it ```Challenge.sol```.
+9. Create a new file in the ```test``` directory, let's call it ```challenge.t.sol```.
 
 Now we need to paste the challenge code into ```Challenge.sol``` and make a few alterations to be able to run locally.<br>
 You will notice I changed the naming convention slightly but the concept remains the same.<br><br>
@@ -45,7 +48,7 @@ import "../abstractContracts/ACyfrinSecurityChallengeContract.sol";
 import "../interfaces/ICyfrinSecurityChallenges.sol";
 ```
 <br>
-We can no longer inherit contracts due to the imports being removed. So our contract needs to be ammended to remove the inheritance statment:
+We can no longer inherit contracts due to the imports being removed. So our contract needs to be amended to remove the inheritance statement:
 
 ```
 is ACyfrinSecurityChallengeContract {
@@ -278,7 +281,7 @@ function callhFunc(uint128 numbor) external {
     }
 ```
 And thus we can use a data type of ```uint128``` which is the same as the input for the function we need to call.<br>
-According to the documentation a fuzzing function needs to include the signature ```testFuzz``` so we need to ammend our test class to add such a function. we would then need to import the local file ```Challenge.sol``` from ```src``` in order to call the CTF contract.
+According to the documentation a fuzzing function needs to include the signature ```testFuzz``` so we need to amend our test class to add such a function. we would then need to import the local file ```Challenge.sol``` from ```src``` in order to call the CTF contract.
 <br><br>
 ```
 // SPDX-License-Identifier: UNLICENSED
@@ -300,7 +303,7 @@ contract CounterTest is Test {
 }
 ```
 **That's it**. 
-That's all that needed......**kinda**.
+That's all that is needed......**kinda**.
 <br>
 Just one more small tweak.<br>
 By default the fuzzer only runs 256 times, so we need to make sure it can run a few more times.<br>
@@ -315,9 +318,9 @@ Now we can run the forge test command, I like to add -vvvv to get a bit more det
 ![Fuzz output](images/solved_fuzz.png)<br><br>
 **Now we have the number that will trigger the failure and solve the CTF**
 <br>
-If you look at the transction that successfully solved it on the actual CTF solution. The input is <br>
+If you look at the transction that successfully solved the CTF on-chain, the input that was sent is: <br>
 "0000000000000000000000000000000000000000000000000000000000000063" <br>
-This equates to the same number we got above but our number is in decimal format and the solution number is in hex.
+This equates to the same number we got above in the ```YouSolvedIt()``` error, but our number is in decimal format and the solution number is in hex.
 <br>
 ## Thank you for reading this far!
 # Thank you to Cyfrin for the learning opportunity.
