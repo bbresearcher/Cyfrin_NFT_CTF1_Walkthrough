@@ -1,4 +1,3 @@
-# The Cyfrin NFT First CTF Walkthrough
 Author: [parsely](https://twitter.com/_Parsely_)<br>
 ## Exploring the blockchain, FUZZING with Foundry, let's learn together!
 ## This walkthrough will show the steps I took to solve the challenge and how you can solve it locally using foundry without needing to test on-chain or fork a network.
